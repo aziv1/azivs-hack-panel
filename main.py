@@ -152,10 +152,10 @@ class mac_changer(tk.Toplevel):
             operating_system.system('python randomise_mac_windows.py -r')
 
         def select_mac_linux(mac):
-            operating_system.system('sudo python randomise_mac_linux.py wlan0 -m {mac}')
+            operating_system.system('sudo python randomise_mac_linux.py wlan0 -m ' + mac)
 
         def select_mac_win(mac):
-            operating_system.system('python randomise_mac_windows.py -m {mac}')
+            operating_system.system('python randomise_mac_windows.py -m ' + mac)
 
         def randomise_mac():
             os = platform.system()
