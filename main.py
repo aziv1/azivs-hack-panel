@@ -171,7 +171,7 @@ class mac_changer(tk.Toplevel):
         def select_mac():
             os = platform.system()
 
-            mac = inp_mac.get()
+            mac = inp_mac.get(1.0, "end-1c")
             if mac == "":
                 randomise_mac()
             else:
@@ -187,7 +187,8 @@ class mac_changer(tk.Toplevel):
         tk.Label(self, text="MAC CHANGER").pack(expand=True)
         tk.ttk.Button(self, text="Randomise Mac", command = randomise_mac).pack(expand=True)
         tk.ttk.Button(self, text="Select Mac", command = select_mac).pack(expand=True)
-        inp_mac = Text(self, height = 1, width = 20).pack(expand=True)
+        inp_mac = Text(self, height = 1, width = 20)
+        inp_mac.pack(expand=True)
         tk.ttk.Button(self, text="Close", command = quit_program).pack(expand=True)
 
 class master(tk.Tk):
