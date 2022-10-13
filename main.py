@@ -4,6 +4,9 @@ from tkinter.ttk import *
 import os as operating_system
 import platform
 
+from click import command
+from sympy import expand
+
 
 class dossing_panel(tk.Toplevel):
     def __init__(self, parent):
@@ -125,13 +128,67 @@ class dossing_panel(tk.Toplevel):
         inputtxt4 = Text(self, height = 1, width = 20)
         inputtxt4.pack()
 
-        # BUTTON For QUIT
-        btn3 = Button(self, text ="Quit", command = quit_program)
+        # BUTTON For Close
+        btn3 = Button(self, text ="Close", command = quit_program)
         btn3.pack(pady = 10)
 
         # mainloop, runs infinitely
         mainloop()
 
+class mac_changer(tk.Toplevel):
+    def __init__(self, parent):
+        super().__init__(parent)
+
+        self.geometry('300x150')
+        self.title('Mac Changer')
+
+        def quit_program():
+            self.destroy()
+        
+        def randomise_mac_linux():
+            operating_system.system('sudo python randomise_mac_linux.py wlan0 -r')
+
+        def randomise_mac_win():
+            operating_system.system('python randomise_mac_windows.py -r')
+
+        def select_mac_linux(mac):
+            operating_system.system('sudo python randomise_mac_linux.py wlan0 -m {mac}')
+
+        def select_mac_win(mac):
+            operating_system.system('python randomise_mac_windows.py -m {mac}')
+
+        def randomise_mac():
+            os = platform.system()
+
+            if os == "Linux":
+                randomise_mac_linux()
+            elif os == "Windows":
+                randomise_mac_win()
+            else:
+                print("OS IS NOT SUPPORTED")
+                pass
+
+        def select_mac():
+            os = platform.system()
+
+            mac = inp_mac.get()
+            if mac == "":
+                randomise_mac()
+            else:
+                if os == "Linux":
+                    select_mac_linux(mac)
+                elif os == "Windows":
+                    select_mac_win(mac)
+                else:
+                    print("OS IS NOT SUPPORTED")
+                    pass
+
+
+        tk.Label(self, text="MAC CHANGER").pack(expand=True)
+        tk.ttk.Button(self, text="Randomise Mac", command = randomise_mac).pack(expand=True)
+        tk.ttk.Button(self, text="Select Mac", command = select_mac).pack(expand=True)
+        inp_mac = Text(self, height = 1, width = 20).pack(expand=True)
+        tk.ttk.Button(self, text="Close", command = quit_program).pack(expand=True)
 
 class master(tk.Tk):
     def __init__(self):
@@ -141,10 +198,16 @@ class master(tk.Tk):
         self.title('Main Window')
 
         # place a button on the root window
-        tk.ttk.Button(self, text='Open a window', command=self.open_window_dosing).pack(expand=True)
+        tk.Label(self, text="WELCOME TO THE HACK PANEL").pack(expand=True)
+        tk.ttk.Button(self, text='Open Dossing Window', command=self.open_window_dosing).pack(expand=True)
+        tk.ttk.Button(self, text='Open MAC Changer Window', command=self.open_window_mac_changer).pack(expand=True)
 
     def open_window_dosing(self):
         window = dossing_panel(self)
+        window.grab_set()
+
+    def open_window_mac_changer(self):
+        window = mac_changer(self)
         window.grab_set()
 
 
