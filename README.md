@@ -1,3 +1,2 @@
-# azivs-hack-panel
-## I AM NOT RESPONSIBLE FOR ANY DAMAGES
-have fun :)
+# azivs_DoS_Panel
+## HAVE FUN :)
