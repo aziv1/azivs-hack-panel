@@ -3,10 +3,11 @@ import tkinter as tk
 from tkinter.ttk import *
 import os as operating_system
 import platform
-
-from click import command
-from sympy import expand
-
+import time
+import scapy as scap
+from scapy.all import *
+from scapy.contrib.eigrp import *
+from scapy.all import sendp
 
 class dossing_panel(tk.Toplevel):
     def __init__(self, parent):
@@ -68,7 +69,6 @@ class dossing_panel(tk.Toplevel):
                 command = command
             else:
                 command = command + " " + inp_EXTRA
-            
             
             
             ################################################################
@@ -183,73 +183,12 @@ class mac_changer(tk.Toplevel):
                     print("OS IS NOT SUPPORTED")
                     pass
 
-
         tk.Label(self, text="MAC CHANGER").pack(expand=True)
         tk.ttk.Button(self, text="Randomise Mac", command = randomise_mac).pack(expand=True)
         tk.ttk.Button(self, text="Select Mac", command = select_mac).pack(expand=True)
         inp_mac = Text(self, height = 1, width = 20)
         inp_mac.pack(expand=True)
         tk.ttk.Button(self, text="Close", command = quit_program).pack(expand=True)
-
-class wifi_scanner(tk.Toplevel):
-    def __init__(self, parent):
-        super().__init__(parent)
-
-        self.geometry('300x200')
-        self.title('Netcrack Wifi Scanner')
-
-        def randomise_mac_linux():
-            operating_system.system('sudo python randomise_mac_linux.py wlan0 -r')
-
-        def randomise_mac_win():
-            operating_system.system('python randomise_mac_windows.py -r')
-
-        def destroy_window():
-            os = platform.system()
-
-            if os == "Linux":
-                randomise_mac_linux()
-            elif os == "Windows":
-                randomise_mac_win()
-            else:
-                print("OS IS NOT SUPPORTED")
-                pass
-
-            self.destroy()
-
-        tk.ttk.Label(self, text='WORK IN PROGRESS').pack(expand=True)
-        tk.ttk.Button(self, text='Close',command=destroy_window).pack(expand=True)
-
-#WIFI KILLER
-class network_destroyer(tk.Toplevel):
-    def __init__(self, parent):
-        super().__init__(parent)
-
-        self.geometry('300x400')
-        self.title('Wifi Killer')
-
-        def randomise_mac_linux():
-            operating_system.system('sudo python randomise_mac_linux.py wlan0 -r')
-
-        def randomise_mac_win():
-            operating_system.system('python randomise_mac_windows.py -r')
-
-        def destroy_window():
-            os = platform.system()
-
-            if os == "Linux":
-                randomise_mac_linux()
-            elif os == "Windows":
-                randomise_mac_win()
-            else:
-                print("OS IS NOT SUPPORTED")
-                pass
-
-            self.destroy()
-        
-        tk.ttk.Label(self, text='WIFI KILLER').pack(expand=True)
-        tk.ttk.Button(self, text='Close (USE IT)', command=destroy_window).pack(expand=True)
-
 
 class master(tk.Tk):
     def __init__(self):
@@ -265,8 +204,6 @@ class master(tk.Tk):
         tk.Label(self, text="WELCOME TO THE HACK PANEL").pack(expand=True)
         tk.ttk.Button(self, text='Open Dossing Window', command=self.open_window_dosing).pack(expand=True)
         tk.ttk.Button(self, text='Open MAC Changer Window', command=self.open_window_mac_changer).pack(expand=True)
-        tk.ttk.Button(self, text='Open WIFI Scanner', command=self.open_wifi_scanner).pack(expand=True)
-        tk.ttk.Button(self, text='Open Network Killer', command=self.open_network_destroyer).pack(expand=True)
         tk.ttk.Button(self, text='Quit', command=quit_program).pack(expand=True)
 
     def open_window_dosing(self):
@@ -275,14 +212,6 @@ class master(tk.Tk):
 
     def open_window_mac_changer(self):
         window = mac_changer(self)
-        window.grab_set()
-
-    def open_wifi_scanner(self):
-        window = wifi_scanner(self)
-        window.grab_set()
-    
-    def open_network_destroyer(self):
-        window = network_destroyer(self)
         window.grab_set()
 
 if __name__ == "__main__":
