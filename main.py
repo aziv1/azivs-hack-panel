@@ -191,6 +191,66 @@ class mac_changer(tk.Toplevel):
         inp_mac.pack(expand=True)
         tk.ttk.Button(self, text="Close", command = quit_program).pack(expand=True)
 
+class wifi_scanner(tk.Toplevel):
+    def __init__(self, parent):
+        super().__init__(parent)
+
+        self.geometry('300x200')
+        self.title('Netcrack Wifi Scanner')
+
+        def randomise_mac_linux():
+            operating_system.system('sudo python randomise_mac_linux.py wlan0 -r')
+
+        def randomise_mac_win():
+            operating_system.system('python randomise_mac_windows.py -r')
+
+        def destroy_window():
+            os = platform.system()
+
+            if os == "Linux":
+                randomise_mac_linux()
+            elif os == "Windows":
+                randomise_mac_win()
+            else:
+                print("OS IS NOT SUPPORTED")
+                pass
+
+            self.destroy()
+
+        tk.ttk.Label(self, text='WORK IN PROGRESS').pack(expand=True)
+        tk.ttk.Button(self, text='Close',command=destroy_window).pack(expand=True)
+
+#WIFI KILLER
+class network_destroyer(tk.Toplevel):
+    def __init__(self, parent):
+        super().__init__(parent)
+
+        self.geometry('300x400')
+        self.title('Wifi Killer')
+
+        def randomise_mac_linux():
+            operating_system.system('sudo python randomise_mac_linux.py wlan0 -r')
+
+        def randomise_mac_win():
+            operating_system.system('python randomise_mac_windows.py -r')
+
+        def destroy_window():
+            os = platform.system()
+
+            if os == "Linux":
+                randomise_mac_linux()
+            elif os == "Windows":
+                randomise_mac_win()
+            else:
+                print("OS IS NOT SUPPORTED")
+                pass
+
+            self.destroy()
+        
+        tk.ttk.Label(self, text='WIFI KILLER').pack(expand=True)
+        tk.ttk.Button(self, text='Close (USE IT)', command=destroy_window).pack(expand=True)
+
+
 class master(tk.Tk):
     def __init__(self):
         super().__init__()
@@ -198,10 +258,16 @@ class master(tk.Tk):
         self.geometry('300x200')
         self.title('Main Window')
 
+        def quit_program():
+            quit()
+
         # place a button on the root window
         tk.Label(self, text="WELCOME TO THE HACK PANEL").pack(expand=True)
         tk.ttk.Button(self, text='Open Dossing Window', command=self.open_window_dosing).pack(expand=True)
         tk.ttk.Button(self, text='Open MAC Changer Window', command=self.open_window_mac_changer).pack(expand=True)
+        tk.ttk.Button(self, text='Open WIFI Scanner', command=self.open_wifi_scanner).pack(expand=True)
+        tk.ttk.Button(self, text='Open Network Killer', command=self.open_network_destroyer).pack(expand=True)
+        tk.ttk.Button(self, text='Quit', command=quit_program).pack(expand=True)
 
     def open_window_dosing(self):
         window = dossing_panel(self)
@@ -211,6 +277,13 @@ class master(tk.Tk):
         window = mac_changer(self)
         window.grab_set()
 
+    def open_wifi_scanner(self):
+        window = wifi_scanner(self)
+        window.grab_set()
+    
+    def open_network_destroyer(self):
+        window = network_destroyer(self)
+        window.grab_set()
 
 if __name__ == "__main__":
     app = master()
