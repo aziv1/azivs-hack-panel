@@ -2,7 +2,7 @@ from tkinter import *
 import tkinter as tk
 from tkinter.ttk import *
 import os as operating_system
-import platform
+import platform as plat
 import time
 import scapy as scap
 from scapy.all import *
@@ -26,7 +26,7 @@ class dossing_panel(tk.Toplevel):
             operating_system.system('python randomise_mac_windows.py -r')
 
         def quit_program():
-            os = platform.system()
+            os = plat.system()
             if os == "Linux":
                 randomise_mac_linux()
             elif os == "Windows":
@@ -43,7 +43,7 @@ class dossing_panel(tk.Toplevel):
         def startSlowloris():
             command = "slowloris.py"
 
-            os = platform.system()
+            os = plat.system()
 
             #IP TARGET CONFIG
             inp_IP = inputtxt1.get(1.0, "end-1c")
@@ -158,7 +158,7 @@ class mac_changer(tk.Toplevel):
             operating_system.system('python randomise_mac_windows.py -m ' + mac)
 
         def randomise_mac():
-            os = platform.system()
+            os = plat.system()
 
             if os == "Linux":
                 randomise_mac_linux()
@@ -169,7 +169,7 @@ class mac_changer(tk.Toplevel):
                 pass
 
         def select_mac():
-            os = platform.system()
+            os = plat.system()
 
             mac = inp_mac.get(1.0, "end-1c")
             if mac == "":
@@ -190,6 +190,36 @@ class mac_changer(tk.Toplevel):
         inp_mac.pack(expand=True)
         tk.ttk.Button(self, text="Close", command = quit_program).pack(expand=True)
 
+class MIM_ARP_Poisener(tk.Toplevel):
+    def __init__(self, parent):
+        super().__init__(parent)
+
+        self.geometry('300x300')
+        self.title('ARP MIM Poisener/Attack')
+
+        def randomise_mac_linux():
+            operating_system.system('sudo python randomise_mac_linux.py wlan0 -r')
+
+        def randomise_mac_win():
+            operating_system.system('python randomise_mac_windows.py -r')
+
+        def quit_program():
+            os = plat.system()
+            if os == "Linux":
+                randomise_mac_linux()
+            elif os == "Windows":
+                randomise_mac_win()
+            else:
+                print("OS IS NOT SUPPORTED")
+                pass
+
+            self.destroy()
+
+            print("Quitting Now")
+
+        tk.Label(self, text='ARP MIM Poisener/Attack').pack(expand=True)
+        tk.ttk.Button(self, text="Close (USE IT)", command=quit_program).pack(expand=True)
+
 class master(tk.Tk):
     def __init__(self):
         super().__init__()
@@ -204,6 +234,7 @@ class master(tk.Tk):
         tk.Label(self, text="WELCOME TO THE HACK PANEL").pack(expand=True)
         tk.ttk.Button(self, text='Open Dossing Window', command=self.open_window_dosing).pack(expand=True)
         tk.ttk.Button(self, text='Open MAC Changer Window', command=self.open_window_mac_changer).pack(expand=True)
+        tk.ttk.Button(self, text='Open MIM Arp Poisner Window', command=self.open_arp_poisener).pack(expand=True)
         tk.ttk.Button(self, text='Quit', command=quit_program).pack(expand=True)
 
     def open_window_dosing(self):
@@ -212,6 +243,10 @@ class master(tk.Tk):
 
     def open_window_mac_changer(self):
         window = mac_changer(self)
+        window.grab_set()
+    
+    def open_arp_poisener(self):
+        window = MIM_ARP_Poisener(self)
         window.grab_set()
 
 if __name__ == "__main__":
