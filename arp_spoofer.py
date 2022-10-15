@@ -6,6 +6,7 @@ import sys
 from services import *
 import services as services
 import argparse
+import keyboard
 
 parser = argparse.ArgumentParser(description='A ARP SPOOFER MADE IN PYTHON FOR AZIVS-HACK-PANEL')
 parser.add_argument("target_ip", help="Target IP to attack")
@@ -107,7 +108,7 @@ if __name__ == "__main__":
             spoof(host, target, verbose)
             # sleep for one second
             time.sleep(1)
-    except KeyboardInterrupt:
+    except keyboard.is_pressed('esc'):
         print("[!] Detected CTRL+C ! restoring the network, please wait...")
         restore(target, host)
         restore(host, target)

@@ -208,12 +208,7 @@ class MIM_ARP_Poisener(tk.Toplevel):
             tar_ip = tar_ip_inp.get(1.0, "end-1c")
             hst_ip = tar_host_inp.get(1.0, "end-1c")
 
-            running = True
-
-            while running == True:
-                operating_system.system('sudo python arp_spoofer.py ' + tar_ip + ' ' + hst_ip)
-            if keyboard.is_pressed('ctrl+q'):
-                quit_program()
+            operating_system.system('sudo python arp_spoofer.py ' + tar_ip + ' ' + hst_ip)
 
         def quit_program():
             os = plat.system()
