@@ -253,7 +253,12 @@ class MIM_ARP_Poisener(tk.Toplevel):
         _close = tk.ttk.Button(self, text="Close (USE IT)", command=quit_program)
         _close.pack(pady=5)
 
-        
+class fake_ap_hacks(tk.Toplevel):
+    def __init__(self, parent):
+        super().__init__(parent)
+    
+        self.geometry('300x200')
+        self.title('Start Fake AP')
 
 
 class master(tk.Tk):
@@ -271,6 +276,7 @@ class master(tk.Tk):
         tk.ttk.Button(self, text='Open Dossing Window', command=self.open_window_dosing).pack(expand=True)
         tk.ttk.Button(self, text='Open MAC Changer Window', command=self.open_window_mac_changer).pack(expand=True)
         tk.ttk.Button(self, text='Open MIM Arp Poisner Window', command=self.open_arp_poisener).pack(expand=True)
+        tk.ttk.Button(self, text='Open FAKE AP STARTER', command=self.open_fakeap_hack).pack(expand=True)
         tk.ttk.Button(self, text='Quit', command=quit_program).pack(expand=True)
 
     def open_window_dosing(self):
@@ -283,6 +289,10 @@ class master(tk.Tk):
     
     def open_arp_poisener(self):
         window = MIM_ARP_Poisener(self)
+        window.grab_set()
+    
+    def open_fakeap_hack(self):
+        window = fake_ap_hacks(self)
         window.grab_set()
 
 if __name__ == "__main__":

