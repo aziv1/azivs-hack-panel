@@ -260,6 +260,29 @@ class fake_ap_hacks(tk.Toplevel):
         self.geometry('300x200')
         self.title('Start Fake AP')
 
+        def randomise_mac_linux():
+            operating_system.system('sudo python randomise_mac_linux.py wlan0 -r')
+
+        def randomise_mac_win():
+            operating_system.system('python randomise_mac_windows.py -r')
+
+        def quit_program():
+            os = plat.system()
+            if os == "Linux":
+                randomise_mac_linux()
+            elif os == "Windows":
+                randomise_mac_win()
+            else:
+                print("OS IS NOT SUPPORTED")
+                pass
+
+            self.destroy()
+
+            print("Quitting Now")
+        
+        tk.Label(self, text='FAKE AP HACK').pack(expand=True)
+        tk.ttk.Button(self, text='Quit', command=quit_program).pack(expand=True)
+
 
 class master(tk.Tk):
     def __init__(self):
