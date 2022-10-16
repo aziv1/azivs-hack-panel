@@ -9,6 +9,7 @@ from scapy.all import *
 from scapy.contrib.eigrp import *
 from scapy.all import sendp
 import keyboard
+from sqlalchemy import true
 
 class dossing_panel(tk.Toplevel):
     def __init__(self, parent):
@@ -279,16 +280,84 @@ class fake_ap_hacks(tk.Toplevel):
             self.destroy()
 
             print("Quitting Now")
+
+
+        def start_ap():
+            os.system("sudo python fakeap.py -h")
         
-        tk.Label(self, text='FAKE AP HACK').pack(expand=True)
+        def end_ap():
+            quit()
+        
+        tk.Label(self, text='FAKE AP HACK').pack(expand=True)        
+
+        tk.ttk.Button(self, text='Start', command=start_ap).pack(expand=True)
+        tk.ttk.Button(self, text='End', command=end_ap).pack(expand=True)
         tk.ttk.Button(self, text='Quit', command=quit_program).pack(expand=True)
+
+class ddosser_hack(tk.Toplevel):
+    def __init__(self, parent):
+        super().__init__(parent)
+    
+        self.geometry('300x320')
+        self.title('DDOSSER HACK WINDOWS')
+
+        def randomise_mac_linux():
+            operating_system.system('sudo python randomise_mac_linux.py wlan0 -r')
+
+        def randomise_mac_win():
+            operating_system.system('python randomise_mac_windows.py -r')
+
+        def quit_program():
+            os = plat.system()
+            if os == "Linux":
+                randomise_mac_linux()
+            elif os == "Windows":
+                randomise_mac_win()
+            else:
+                print("OS IS NOT SUPPORTED")
+                pass
+
+            self.destroy()
+        
+        def run_ddosser():
+            target = tar_ip_inp.get(1.0, "end-1c")
+            fake_ip = fake_ip_inp.get(1.0, "end-1c")
+            port = port_inp.get(1.0, "end-1c")
+
+            os.system("sudo python ddosser.py -t "+ target + " -f " + fake_ip + " -p " + port)
+
+        tk.Label(self, text='DDOSSER Window (USE WITH CAUTION)').pack(expand=True)
+
+        # TextBox For TARGE
+        text = Label(self, text="TARGET IP")
+        text.pack(pady=5)
+
+        tar_ip_inp = Text(self, height = 1, width = 20)
+        tar_ip_inp.pack()
+
+        # TextBox For FAKE IP
+        text = Label(self, text="SPOOFED IP (DO NOT ENTER YOU OWN)")
+        text.pack(pady=5)
+
+        fake_ip_inp = Text(self, height = 1, width = 20)
+        fake_ip_inp.pack()
+
+        # TextBox For PORT
+        text = Label(self, text="TARGET PORT (MUST BE OPEN)")
+        text.pack(pady=5)
+
+        port_inp = Text(self, height = 1, width = 20)
+        port_inp.pack()
+
+        tk.ttk.Button(self, text="Excecute", command=run_ddosser).pack(expand=True)
+        tk.ttk.Button(self, text='Quit (USE IT)', command=quit_program).pack(expand=True)
 
 
 class master(tk.Tk):
     def __init__(self):
         super().__init__()
 
-        self.geometry('300x200')
+        self.geometry('300x250')
         self.title('Main Window')
 
         def quit_program():
@@ -300,6 +369,7 @@ class master(tk.Tk):
         tk.ttk.Button(self, text='Open MAC Changer Window', command=self.open_window_mac_changer).pack(expand=True)
         tk.ttk.Button(self, text='Open MIM Arp Poisner Window', command=self.open_arp_poisener).pack(expand=True)
         tk.ttk.Button(self, text='Open FAKE AP STARTER', command=self.open_fakeap_hack).pack(expand=True)
+        tk.ttk.Button(self, text='Open DDOSSER Hack Window', command=self.open_ddosser_hack).pack(expand=True)
         tk.ttk.Button(self, text='Quit', command=quit_program).pack(expand=True)
 
     def open_window_dosing(self):
@@ -316,6 +386,10 @@ class master(tk.Tk):
     
     def open_fakeap_hack(self):
         window = fake_ap_hacks(self)
+        window.grab_set()
+
+    def open_ddosser_hack(self):
+        window = ddosser_hack(self)
         window.grab_set()
 
 if __name__ == "__main__":
