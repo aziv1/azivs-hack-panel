@@ -18,9 +18,6 @@ class dossing_panel(tk.Toplevel):
         self.geometry('300x450')
         self.title('Dossing Window')
 
-        #############################
-        #      DOSSING PANEL        #
-        #############################
         def randomise_mac_linux():
             operating_system.system('sudo python randomise_mac_linux.py wlan0 -r')
 
@@ -373,7 +370,7 @@ class port_scanner(tk.Toplevel):
     def __init__(self, parent):
         super().__init__(parent)
     
-        self.geometry('300x350')
+        self.geometry('300x200')
         self.title('OPEN PORT SCANNER')
 
         def randomise_mac_linux():
@@ -397,8 +394,7 @@ class port_scanner(tk.Toplevel):
         def run():
             ports = ports_inp.get(1.0, "end-1c")
             ip = ip_inp.get(1.0, "end-1c")
-
-            
+            os.system("sudo python port_scanner_ip.py -i " + ip + " -p " + ports)
 
         tk.Label(self, text="OPEN PORT SCANNER").pack(expand=True)
 
@@ -415,6 +411,8 @@ class port_scanner(tk.Toplevel):
 
         ports_inp = Text(self, height = 1, width = 20)
         ports_inp.pack()
+
+        tk.ttk.Button(self, text="Scan", command=run).pack(expand=True)
 
         tk.ttk.Button(self, text='Quit', command=quit_program).pack(expand=True)
         
@@ -465,6 +463,3 @@ class master(tk.Tk):
 if __name__ == "__main__":
     app = master()
     app.mainloop()
-
-
-
