@@ -394,7 +394,28 @@ class port_scanner(tk.Toplevel):
 
             self.destroy()
 
+        def run():
+            ports = ports_inp.get(1.0, "end-1c")
+            ip = ip_inp.get(1.0, "end-1c")
+
+            
+
         tk.Label(self, text="OPEN PORT SCANNER").pack(expand=True)
+
+        # TextBox For FAKE IP
+        text = Label(self, text="IP TO SCAN")
+        text.pack(pady=5)
+
+        ip_inp = Text(self, height = 1, width = 20)
+        ip_inp.pack()
+
+        # TextBox For PORT
+        text = Label(self, text="Ports to scan, eg. 1-65535")
+        text.pack(pady=5)
+
+        ports_inp = Text(self, height = 1, width = 20)
+        ports_inp.pack()
+
         tk.ttk.Button(self, text='Quit', command=quit_program).pack(expand=True)
         
 
@@ -408,7 +429,6 @@ class master(tk.Tk):
         def quit_program():
             quit()
 
-        # place a button on the root window
         tk.Label(self, text="WELCOME TO THE HACK PANEL").pack(expand=True)
         tk.ttk.Button(self, text='Open Dossing Window', command=self.open_window_dosing).pack(expand=True)
         tk.ttk.Button(self, text='Open MAC Changer Window', command=self.open_window_mac_changer).pack(expand=True)
@@ -445,3 +465,6 @@ class master(tk.Tk):
 if __name__ == "__main__":
     app = master()
     app.mainloop()
+
+
+
