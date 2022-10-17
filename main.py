@@ -258,7 +258,7 @@ class fake_ap_hacks(tk.Toplevel):
     def __init__(self, parent):
         super().__init__(parent)
     
-        self.geometry('300x200')
+        self.geometry('300x240')
         self.title('Start Fake AP')
 
         def randomise_mac_linux():
@@ -283,12 +283,29 @@ class fake_ap_hacks(tk.Toplevel):
 
 
         def start_ap():
-            os.system("sudo python fakeap.py -h")
+            interface = interface_inp.get(1.0, "end-1c")
+            number_of = num_inp.get(1.0, "end-1c")
+            
+            os.system("sudo python fakeap.py " + interface + " -n " + number_of)
         
         def end_ap():
             quit()
         
         tk.Label(self, text='FAKE AP HACK').pack(expand=True)        
+
+        # TextBox For FAKE IP
+        text = Label(self, text="Interface eg. wlan0")
+        text.pack(pady=5)
+
+        interface_inp = Text(self, height = 1, width = 20)
+        interface_inp.pack()
+
+        # TextBox For PORT
+        text = Label(self, text="Number Of Points to Generate")
+        text.pack(pady=5)
+
+        num_inp = Text(self, height = 1, width = 20)
+        num_inp.pack()
 
         tk.ttk.Button(self, text='Start', command=start_ap).pack(expand=True)
         tk.ttk.Button(self, text='End', command=end_ap).pack(expand=True)
@@ -352,12 +369,40 @@ class ddosser_hack(tk.Toplevel):
         tk.ttk.Button(self, text="Excecute", command=run_ddosser).pack(expand=True)
         tk.ttk.Button(self, text='Quit (USE IT)', command=quit_program).pack(expand=True)
 
+class port_scanner(tk.Toplevel):
+    def __init__(self, parent):
+        super().__init__(parent)
+    
+        self.geometry('300x350')
+        self.title('OPEN PORT SCANNER')
+
+        def randomise_mac_linux():
+            operating_system.system('sudo python randomise_mac_linux.py wlan0 -r')
+
+        def randomise_mac_win():
+            operating_system.system('python randomise_mac_windows.py -r')
+
+        def quit_program():
+            os = plat.system()
+            if os == "Linux":
+                randomise_mac_linux()
+            elif os == "Windows":
+                randomise_mac_win()
+            else:
+                print("OS IS NOT SUPPORTED")
+                pass
+
+            self.destroy()
+
+        tk.Label(self, text="OPEN PORT SCANNER").pack(expand=True)
+        tk.ttk.Button(self, text='Quit', command=quit_program).pack(expand=True)
+        
 
 class master(tk.Tk):
     def __init__(self):
         super().__init__()
 
-        self.geometry('300x250')
+        self.geometry('300x280')
         self.title('Main Window')
 
         def quit_program():
@@ -370,6 +415,7 @@ class master(tk.Tk):
         tk.ttk.Button(self, text='Open MIM Arp Poisner Window', command=self.open_arp_poisener).pack(expand=True)
         tk.ttk.Button(self, text='Open FAKE AP STARTER', command=self.open_fakeap_hack).pack(expand=True)
         tk.ttk.Button(self, text='Open DDOSSER Hack Window', command=self.open_ddosser_hack).pack(expand=True)
+        tk.ttk.Button(self, text='Open Port Scanner (OPEN)', command=self.open_port_scanner).pack(expand=True)
         tk.ttk.Button(self, text='Quit', command=quit_program).pack(expand=True)
 
     def open_window_dosing(self):
@@ -391,6 +437,10 @@ class master(tk.Tk):
     def open_ddosser_hack(self):
         window = ddosser_hack(self)
         window.grab_set()
+
+    def open_port_scanner(self):
+        window = port_scanner(self)
+        window.grab_set
 
 if __name__ == "__main__":
     app = master()
