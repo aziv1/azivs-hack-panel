@@ -312,7 +312,7 @@ class ddosser_hack(tk.Toplevel):
     def __init__(self, parent):
         super().__init__(parent)
     
-        self.geometry('300x320')
+        self.geometry('300x370')
         self.title('DDOSSER HACK WINDOWS')
 
         def randomise_mac_linux():
@@ -337,8 +337,9 @@ class ddosser_hack(tk.Toplevel):
             target = tar_ip_inp.get(1.0, "end-1c")
             fake_ip = fake_ip_inp.get(1.0, "end-1c")
             port = port_inp.get(1.0, "end-1c")
+            bots = bot_inp.get(1.0, "end-1c")
 
-            os.system("sudo python ddosser.py -t "+ target + " -f " + fake_ip + " -p " + port)
+            os.system("python ddosser.py -t "+ target + " -f " + fake_ip + " -p " + port + " -b " + bots)
 
         tk.Label(self, text='DDOSSER Window (USE WITH CAUTION)').pack(expand=True)
 
@@ -362,6 +363,13 @@ class ddosser_hack(tk.Toplevel):
 
         port_inp = Text(self, height = 1, width = 20)
         port_inp.pack()
+
+        # TextBox For PORT
+        text = Label(self, text="Amount of Bots")
+        text.pack(pady=5)
+
+        bot_inp = Text(self, height = 1, width = 20)
+        bot_inp.pack()
 
         tk.ttk.Button(self, text="Excecute", command=run_ddosser).pack(expand=True)
         tk.ttk.Button(self, text='Quit (USE IT)', command=quit_program).pack(expand=True)
@@ -394,7 +402,9 @@ class port_scanner(tk.Toplevel):
         def run():
             ports = ports_inp.get(1.0, "end-1c")
             ip = ip_inp.get(1.0, "end-1c")
-            os.system("sudo python port_scanner_ip.py -i " + ip + " -p " + ports)
+            print(ip)
+            print(ports)
+            os.system("python port_scanner_ip.py -i " + ip + " -p " + ports)
 
         tk.Label(self, text="OPEN PORT SCANNER").pack(expand=True)
 
