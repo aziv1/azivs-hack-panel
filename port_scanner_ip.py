@@ -16,8 +16,8 @@ port_min = 0
 port_max = 65535
 
 parser = argparse.ArgumentParser(description="OPEN PORT SCANNER FOR HACK-PANEL by aziv1")
-parser.add_argument("-i", "--ip", default="127.0.0.1", help="IP TO SCAN FOR OPEN PORTS", default="127.0.0.1")
-parser.add_argument("-p", "--ports_to_scan", help="Ports to scan eg. 1-60", default="1-65535")
+parser.add_argument("-i", "--ip", default="127.0.0.1", help="IP TO SCAN FOR OPEN PORTS")
+parser.add_argument("-p", "--ports_to_scan", help="Ports to scan eg. 1-60")
 args = parser.parse_args()
 
 # This script uses the socket api to see if you can connect to a port on a specified ip address. 

@@ -3,13 +3,12 @@ import tkinter as tk
 from tkinter.ttk import *
 import os as operating_system
 import platform as plat
-import time
 import scapy as scap
 from scapy.all import *
 from scapy.contrib.eigrp import *
 from scapy.all import sendp
-import keyboard
-from sqlalchemy import true
+import geocoder
+import webbrowser
 
 class dossing_panel(tk.Toplevel):
     def __init__(self, parent):
@@ -378,7 +377,7 @@ class port_scanner(tk.Toplevel):
     def __init__(self, parent):
         super().__init__(parent)
     
-        self.geometry('300x200')
+        self.geometry('300x120')
         self.title('OPEN PORT SCANNER')
 
         def randomise_mac_linux():
@@ -413,25 +412,62 @@ class port_scanner(tk.Toplevel):
         text.pack(pady=5)
 
         ip_inp = Text(self, height = 1, width = 20)
-        ip_inp.pack()
+        ip_inp.pack(pady=5)
 
         # TextBox For PORT
         text = Label(self, text="Ports to scan, eg. 1-65535")
         text.pack(pady=5)
 
         ports_inp = Text(self, height = 1, width = 20)
-        ports_inp.pack()
+        ports_inp.pack(pady=5)
 
-        tk.ttk.Button(self, text="Scan", command=run).pack(expand=True)
+        tk.ttk.Button(self, text="Scan", command=run).pack(expand=True, pady=5)
 
-        tk.ttk.Button(self, text='Quit', command=quit_program).pack(expand=True)
+        tk.ttk.Button(self, text='Quit', command=quit_program).pack(expand=True, pady=5)
         
+class ip_tracer(tk.Toplevel):
+    def __init__(self, parent):
+        super().__init__(parent)
+
+        self.geometry('300x200')
+        self.title('IP TRACER')
+
+        def run():        
+            geocode = geocoder.ip(ip_inp.get(1.0, "end-1c"))
+            print(geocode.latlng)
+            print(geocode.city)
+            print(geocode.country)
+            print(geocode.ip)
+            
+            lat = geocode.lat
+            lng = geocode.lng
+
+            webbrowser.open(f"https://www.google.com/maps/place/{lat}+{lng}", new=1)
+
+        def quit_program():
+            self.destroy()
+
+        text = tk.Label(self, text="Ip Tracer")
+        text.pack()
+
+        # TextBox For IP
+        text = Label(self, text="IP TO TRACE")
+        text.pack(pady=5)
+
+        ip_inp = Text(self, height = 1, width = 20)
+        ip_inp.pack()
+
+        button = tk.ttk.Button(self, text='Trace', command=run)
+        button.pack()
+
+        button = tk.ttk.Button(self, text='Quit', command=quit_program)
+        button.pack()
 
 class master(tk.Tk):
     def __init__(self):
         super().__init__()
 
-        self.geometry('300x280')
+        self.geometry('300x320')
         self.title('Main Window')
 
         def quit_program():
@@ -444,6 +480,7 @@ class master(tk.Tk):
         tk.ttk.Button(self, text='Open FAKE AP STARTER', command=self.open_fakeap_hack).pack(expand=True)
         tk.ttk.Button(self, text='Open DDOSSER Hack Window', command=self.open_ddosser_hack).pack(expand=True)
         tk.ttk.Button(self, text='Open Port Scanner (OPEN)', command=self.open_port_scanner).pack(expand=True)
+        tk.ttk.Button(self, text='Open IP Tracer', command=self.open_ip_tracer).pack(expand=True)
         tk.ttk.Button(self, text='Quit', command=quit_program).pack(expand=True)
 
     def open_window_dosing(self):
@@ -469,6 +506,10 @@ class master(tk.Tk):
     def open_port_scanner(self):
         window = port_scanner(self)
         window.grab_set
+    
+    def open_ip_tracer(self):
+        window = ip_tracer(self)
+        window.grab_set()
 
 if __name__ == "__main__":
     app = master()
