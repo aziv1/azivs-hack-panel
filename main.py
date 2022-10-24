@@ -463,11 +463,20 @@ class ip_tracer(tk.Toplevel):
         button = tk.ttk.Button(self, text='Quit', command=quit_program)
         button.pack()
 
+class zip_cracker(tk.Toplevel):
+    def __init__(self, parent):
+        super().__init__(parent)
+
+        self.geometry('300x350')
+        self.title('ZIP CRACKER')
+
+        text = tk.Label(self, text="Zip Cracker").pack(expand=True)
+
 class master(tk.Tk):
     def __init__(self):
         super().__init__()
 
-        self.geometry('300x320')
+        self.geometry('300x370')
         self.title('Main Window')
 
         def quit_program():
@@ -481,6 +490,7 @@ class master(tk.Tk):
         tk.ttk.Button(self, text='Open DDOSSER Hack Window', command=self.open_ddosser_hack).pack(expand=True)
         tk.ttk.Button(self, text='Open Port Scanner (OPEN)', command=self.open_port_scanner).pack(expand=True)
         tk.ttk.Button(self, text='Open IP Tracer', command=self.open_ip_tracer).pack(expand=True)
+        tk.ttk.Button(self, text='Open ZIP Cracker', command=self.open_zip_cracker).pack(expand=True)
         tk.ttk.Button(self, text='Quit', command=quit_program).pack(expand=True)
 
     def open_window_dosing(self):
@@ -509,6 +519,10 @@ class master(tk.Tk):
     
     def open_ip_tracer(self):
         window = ip_tracer(self)
+        window.grab_set()
+    
+    def open_zip_cracker(self):
+        window = zip_cracker(self)
         window.grab_set()
 
 if __name__ == "__main__":
