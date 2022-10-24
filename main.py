@@ -467,10 +467,61 @@ class zip_cracker(tk.Toplevel):
     def __init__(self, parent):
         super().__init__(parent)
 
-        self.geometry('300x350')
+        self.geometry('300x250')
         self.title('ZIP CRACKER')
 
-        tk.Label(self, text="Zip Cracker").pack(expand=True)
+        def check():
+            os = plat.system()
+            if os == "Linux":
+                pass
+            else:
+                print("OS IS NOT SUPPORTED")
+                self.destroy()
+
+
+        def quit_program():
+            self.destroy()
+
+        def run():
+            check()
+
+            try:
+                zip = zip_inp.get(1.0, "end-1c")
+                wl = wl_inp.get(1.0, "end-1c")
+
+                if wl == "":
+                    wl = "/usr/share/wordlists/rockyou.txt"
+                else:
+                    pass
+                
+                os.system(f"fcrackzip -u -D -p {wl} {zip}")
+            except:
+                print("CAN NOT RUN PLEASE ENSURE THAT fcrackzip IS INSTALLED")
+                self.destroy()
+
+
+        tk.Label(self, text="Zip Cracker").pack(pady=5)
+
+        # TextBox For PATH
+        text = Label(self, text="Full Path To Zip")
+        text.pack(pady=5)
+
+        zip_inp = Text(self, height = 1, width = 20)
+        zip_inp.pack(pady=5)
+
+        # TextBox For WORDLIST
+        text = Label(self, text="Full Path To WORDLIST")
+        text.pack(pady=5)
+
+        wl_inp = Text(self, height = 1, width = 20)
+        wl_inp.pack(pady=5)
+
+        button = tk.ttk.Button(self, text='Run', command=run)
+        button.pack(pady=5)
+
+        button = tk.ttk.Button(self, text='Quit', command=quit_program)
+        button.pack(pady=5)
+        
 
 class master(tk.Tk):
     def __init__(self):
