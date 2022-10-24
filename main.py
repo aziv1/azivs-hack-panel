@@ -470,7 +470,7 @@ class zip_cracker(tk.Toplevel):
         self.geometry('300x350')
         self.title('ZIP CRACKER')
 
-        text = tk.Label(self, text="Zip Cracker").pack(expand=True)
+        tk.Label(self, text="Zip Cracker").pack(expand=True)
 
 class master(tk.Tk):
     def __init__(self):
