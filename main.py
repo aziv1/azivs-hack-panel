@@ -377,7 +377,7 @@ class port_scanner(tk.Toplevel):
     def __init__(self, parent):
         super().__init__(parent)
     
-        self.geometry('300x120')
+        self.geometry('300x200')
         self.title('OPEN PORT SCANNER')
 
         def randomise_mac_linux():
@@ -421,9 +421,9 @@ class port_scanner(tk.Toplevel):
         ports_inp = Text(self, height = 1, width = 20)
         ports_inp.pack(pady=5)
 
-        tk.ttk.Button(self, text="Scan", command=run).pack(expand=True, pady=5)
+        tk.ttk.Button(self, text="Scan", command=run).pack(expand=True)
 
-        tk.ttk.Button(self, text='Quit', command=quit_program).pack(expand=True, pady=5)
+        tk.ttk.Button(self, text='Quit', command=quit_program).pack(expand=True)
         
 class ip_tracer(tk.Toplevel):
     def __init__(self, parent):
@@ -521,13 +521,85 @@ class zip_cracker(tk.Toplevel):
 
         button = tk.ttk.Button(self, text='Quit', command=quit_program)
         button.pack(pady=5)
+
+class pdf_cracker(tk.Toplevel):
+    def __init__(self, parent):
+        super().__init__(parent)
+
+        self.geometry('300x250')
+        self.title('PDF CRACKER')
+
+        def check():
+            os = plat.system()
+
+            if os == "Linux":
+                pass
+            else:
+                print("OS IS NOT SUPPORTED")
+                self.destroy()
+
+
+        def quit_program():
+            self.destroy()
+
+        def run():
+            check()
+
+            try:
+                pdf = pdf_inp.get(1.0, "end-1c")
+                wl = wl_inp.get(1.0, "end-1c")
+
+                if wl == "":
+                    wl = "/usr/share/wordlists/rockyou.txt"
+                else:
+                    pass
+                
+                try:
+                    os.system(f"pdf2john {pdf} > hash")
+                    print("[-->] Converted pdf to hash succsesfully!")
+                    time.sleep(1)
+                except:
+                    print("[-->] Failed hash conversion")
+
+                try:
+                    os.system(f"john --wordlist={wl} ./hash")
+                    print("[-->] Cracking Succeded")
+                except:
+                    print("[-->] CRACKING FAILED")
+
+            except:
+                print("CAN NOT RUN PLEASE ENSURE THAT john and pdf2john IS INSTALLED")
+                self.destroy()
+
+
+        tk.Label(self, text="Zip Cracker").pack(pady=5)
+
+        # TextBox For PATH
+        text = Label(self, text="Full Path To PDF")
+        text.pack(pady=5)
+
+        pdf_inp = Text(self, height = 1, width = 20)
+        pdf_inp.pack(pady=5)
+
+        # TextBox For WORDLIST
+        text = Label(self, text="Full Path To WORDLIST")
+        text.pack(pady=5)
+
+        wl_inp = Text(self, height = 1, width = 20)
+        wl_inp.pack(pady=5)
+
+        button = tk.ttk.Button(self, text='Run', command=run)
+        button.pack(pady=5)
+
+        button = tk.ttk.Button(self, text='Quit', command=quit_program)
+        button.pack(pady=5)
         
 
 class master(tk.Tk):
     def __init__(self):
         super().__init__()
 
-        self.geometry('300x370')
+        self.geometry('300x400')
         self.title('Main Window')
 
         def quit_program():
@@ -542,6 +614,7 @@ class master(tk.Tk):
         tk.ttk.Button(self, text='Open Port Scanner (OPEN)', command=self.open_port_scanner).pack(expand=True)
         tk.ttk.Button(self, text='Open IP Tracer', command=self.open_ip_tracer).pack(expand=True)
         tk.ttk.Button(self, text='Open ZIP Cracker', command=self.open_zip_cracker).pack(expand=True)
+        tk.ttk.Button(self, text='Open PDF Cracker', command=self.open_pdf_cracker).pack(expand=True)
         tk.ttk.Button(self, text='Quit', command=quit_program).pack(expand=True)
 
     def open_window_dosing(self):
@@ -574,6 +647,10 @@ class master(tk.Tk):
     
     def open_zip_cracker(self):
         window = zip_cracker(self)
+        window.grab_set()
+        
+    def open_pdf_cracker(self):
+        window = pdf_cracker(self)
         window.grab_set()
 
 if __name__ == "__main__":
