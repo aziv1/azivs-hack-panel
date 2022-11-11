@@ -599,23 +599,28 @@ class master(tk.Tk):
     def __init__(self):
         super().__init__()
 
-        self.geometry('300x400')
-        self.title('Main Window')
+        self.geometry('450x445')
+        self.title('azivs-hack-panel launcher')
+        self.configure(bg='Black')
+
+        # This will create style object
+        style = Style()
+        style.configure('W.TButton', font=('calibri', 10, 'bold'),background = 'Gray', foreground = 'White')
 
         def quit_program():
             quit()
 
-        tk.Label(self, text="WELCOME TO THE HACK PANEL").pack(expand=True)
-        tk.ttk.Button(self, text='Open Dossing Window', command=self.open_window_dosing).pack(expand=True)
-        tk.ttk.Button(self, text='Open MAC Changer Window', command=self.open_window_mac_changer).pack(expand=True)
-        tk.ttk.Button(self, text='Open MIM Arp Poisner Window', command=self.open_arp_poisener).pack(expand=True)
-        tk.ttk.Button(self, text='Open FAKE AP STARTER', command=self.open_fakeap_hack).pack(expand=True)
-        tk.ttk.Button(self, text='Open DDOSSER Hack Window', command=self.open_ddosser_hack).pack(expand=True)
-        tk.ttk.Button(self, text='Open Port Scanner (OPEN)', command=self.open_port_scanner).pack(expand=True)
-        tk.ttk.Button(self, text='Open IP Tracer', command=self.open_ip_tracer).pack(expand=True)
-        tk.ttk.Button(self, text='Open ZIP Cracker', command=self.open_zip_cracker).pack(expand=True)
-        tk.ttk.Button(self, text='Open PDF Cracker', command=self.open_pdf_cracker).pack(expand=True)
-        tk.ttk.Button(self, text='Quit', command=quit_program).pack(expand=True)
+        tk.Label(self, text="WELCOME TO THE HACK PANEL", background='Black', foreground='White', font=('Minecraft', 20)).pack(pady=5)
+        tk.ttk.Button(self, text='Open Dossing Window', command=self.open_window_dosing, style='W.TButton').pack(anchor='w', pady=5)
+        tk.ttk.Button(self, text='Open MAC Changer Window', command=self.open_window_mac_changer, style='W.TButton').pack(anchor='w', pady=5)
+        tk.ttk.Button(self, text='Open MIM Arp Poisner Window', command=self.open_arp_poisener, style='W.TButton').pack(anchor='w', pady=5)
+        tk.ttk.Button(self, text='Open FAKE AP STARTER', command=self.open_fakeap_hack, style='W.TButton').pack(anchor='w', pady=5)
+        tk.ttk.Button(self, text='Open DDOSSER Hack Window', command=self.open_ddosser_hack, style='W.TButton').pack(anchor='w', pady=5)
+        tk.ttk.Button(self, text='Open Port Scanner (OPEN)', command=self.open_port_scanner, style='W.TButton').pack(anchor='w', pady=5)
+        tk.ttk.Button(self, text='Open IP Tracer', command=self.open_ip_tracer, style='W.TButton').pack(anchor='w', pady=5)
+        tk.ttk.Button(self, text='Open ZIP Cracker', command=self.open_zip_cracker, style='W.TButton').pack(anchor='w', pady=5)
+        tk.ttk.Button(self, text='Open PDF Cracker', command=self.open_pdf_cracker, style='W.TButton').pack(anchor='w', pady=5)
+        tk.ttk.Button(self, text='Quit', command=quit_program, style='W.TButton').pack(anchor='w', pady=5)
 
     def open_window_dosing(self):
         window = dossing_panel(self)

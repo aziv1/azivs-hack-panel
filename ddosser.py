@@ -3,10 +3,10 @@ import threading
 import argparse
 
 parser = argparse.ArgumentParser(description='DDOSSER MADE FOR AZIVS HACK PANEL')
-parser.add_argument("-t", "--target_ip", help="Target IP to attack", type=str)
-parser.add_argument("-f", "--fake_ip", help="Choose A random IP to spoof your real one, DO NOT USE YOURS HERE", type=str)
-parser.add_argument("-p", "--port", help="Port to attack, must be open", type=int)
-parser.add_argument("-b", "--bots", help="Amount of bots to DDos With", type=int)
+parser.add_argument("-t", "--target_ip", help="Target IP to attack", type=str, required=True)
+parser.add_argument("-f", "--fake_ip", help="Choose A random IP to spoof your real one, DO NOT USE YOURS HERE", type=str, required=True)
+parser.add_argument("-p", "--port", help="Port to attack, must be open", type=int, required=True)
+parser.add_argument("-b", "--bots", help="Amount of bots to DDos With", type=int, required=True)
 args = parser.parse_args()
 
 target = args.target_ip
